@@ -2418,7 +2418,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3007,6 +3006,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
@@ -3066,9 +3066,11 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     FrameSelection: function FrameSelection(type, sort, id, choiceid) {
-      this.sort = sort;
+      this.sort = sort; //alert($('#ans'+id).val());
 
       if (type == 'Take Quiz') {
+        this.ansArr.answer = $('#ans' + id).val(); //  alert(this.ansArr.answer);
+
         this.popShow = false;
         this.quizShow = true;
       }
@@ -3095,6 +3097,7 @@ __webpack_require__.r(__webpack_exports__);
         var finalVal = mm + '/' + dd + '/' + yy;
         this.ansArr.answer = finalVal;
       } else {
+        //alert(id);
         this.ansArr.answer = $('#ans' + id).val();
       } //alert(this.ansArr.answer);
 
@@ -3112,6 +3115,8 @@ __webpack_require__.r(__webpack_exports__);
         if (res == 'hii') {
           $('.show1').css('display', 'none');
           $('#s3').css('display', 'block');
+        } else if (res == 'Finish') {
+          window.top.location = '/Quiz_App';
         } else {
           $('.show1').css('display', 'none');
           $('#' + res).css('display', 'block');
@@ -41582,6 +41587,14 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "qc-button" }, [
                       _c("input", {
+                        attrs: {
+                          type: "hidden",
+                          id: "ans1",
+                          value: "Take Quiz"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
                         style:
                           "width:200px;height:40px;background-color:" +
                           _vm.basicInfo[0].btn_bgcolor +
@@ -41600,7 +41613,7 @@ var render = function() {
                         },
                         on: {
                           click: function($event) {
-                            return _vm.FrameSelection("Take Quiz", "0")
+                            return _vm.FrameSelection("Take Quiz", "0", 1)
                           }
                         }
                       })
@@ -43333,7 +43346,39 @@ var render = function() {
                         _c("div", { staticClass: "qb-header" }, [
                           _c("h4", [
                             _vm._v(_vm._s(_vm.basicInfo[0].quiz_thankyou))
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: {
+                              type: "hidden",
+                              id: "ans2",
+                              value: "Finish Quiz"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            style:
+                              "width:200px;height:40px;background-color:" +
+                              _vm.basicInfo[0].btn_bgcolor +
+                              ";color:" +
+                              _vm.basicInfo[0].btn_txtcolor +
+                              ";font-size:" +
+                              _vm.basicInfo[0].btn_font_size +
+                              "px; border-radius:" +
+                              _vm.basicInfo[0].btn_border_radius +
+                              "px;",
+                            attrs: {
+                              type: "button",
+                              value: "Finish",
+                              id: "start1",
+                              name: "start1"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.FrameSelection("Finish Quiz", "0", 2)
+                              }
+                            }
+                          })
                         ])
                       ])
                     ])

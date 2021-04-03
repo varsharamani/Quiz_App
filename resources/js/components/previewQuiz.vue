@@ -14,7 +14,8 @@
     							<!--<p>{{ basicInfo[0].title_2 }}</p>-->
                             </div>
 							<div class="qc-button">
-								<input type="button" :value="basicInfo[0].btn_text" :style="'width:200px;height:40px;background-color:'+basicInfo[0].btn_bgcolor+';color:'+basicInfo[0].btn_txtcolor+';font-size:'+basicInfo[0].btn_font_size+'px; border-radius:'+basicInfo[0].btn_border_radius+'px;'"  id="start1" name="start1" @click="FrameSelection('Take Quiz','0')">
+                                <input type="hidden" id="ans1" value="Take Quiz">
+								<input type="button" :value="basicInfo[0].btn_text" :style="'width:200px;height:40px;background-color:'+basicInfo[0].btn_bgcolor+';color:'+basicInfo[0].btn_txtcolor+';font-size:'+basicInfo[0].btn_font_size+'px; border-radius:'+basicInfo[0].btn_border_radius+'px;'"  id="start1" name="start1" @click="FrameSelection('Take Quiz','0',1)">
 							</div>
 						</div>
 					</div>
@@ -38,10 +39,7 @@
                                 <div class="quiz-product">
                                     <div class="quiz-preview-container">
                                         <div class="preview0">
-                                            
-                                    
                                         <div v-if="selChoice.length != 0">
-                                        
                                             <!--<div v-if="frames" class="quiz-pro-box" v-for="(frame,index) in frames">
                                                 <div class="quiz-pro">
                                                     <div class="qpb-thumb" :style="'background-image: url('+frame.frame_img+')'"></div>
@@ -215,6 +213,9 @@
                                 <div class="qb-header">    
                                     <h4>{{ basicInfo[0].quiz_thankyou }}</h4>
                                     <!--<p>{{ basicInfo[0].title_2 }}</p>-->
+                                    <input type="hidden" id="ans2" value="Finish Quiz">
+                                    <input type="button" value="Finish" :style="'width:200px;height:40px;background-color:'+basicInfo[0].btn_bgcolor+';color:'+basicInfo[0].btn_txtcolor+';font-size:'+basicInfo[0].btn_font_size+'px; border-radius:'+basicInfo[0].btn_border_radius+'px;'"  id="start1" name="start1" @click="FrameSelection('Finish Quiz','0',2)">
+
                                 </div>
                             </div>
                         </div>
@@ -284,7 +285,10 @@
             },
             FrameSelection(type,sort,id,choiceid){
                 this.sort = sort;
+                //alert($('#ans'+id).val());
                 if(type == 'Take Quiz'){
+                    this.ansArr.answer = $('#ans'+id).val();
+                  //  alert(this.ansArr.answer);
                     this.popShow = false;
                     this.quizShow = true;
                 }
@@ -313,7 +317,9 @@
                 this.ansArr.answer = finalVal;
               
             }else{
+                //alert(id);
                  this.ansArr.answer = $('#ans'+id).val();
+            
             }
             //alert(this.ansArr.answer);
             var url = 'api/getSelChoice/'+this.quizId+'/'+sort+'/'+id;
@@ -329,6 +335,8 @@
                     if(res == 'hii'){
                          $('.show1').css('display','none');
                          $('#s3').css('display','block');
+                    }else if(res == 'Finish'){
+                         window.top.location = '/Quiz_App';
                     }else{
                         $('.show1').css('display','none');
                         $('#'+res).css('display','block');

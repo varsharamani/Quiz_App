@@ -74,7 +74,6 @@
                                                 </div>  
                                                 <div style="display:none;"></div>
                                             <div v-for="(sChoice,index) in selChoice" v-bind:key="sChoice.id" :id="sChoice.id">
-                                         
                                                 <div class="steps" @click="show1('s2',sChoice.id)"><!--stepbox--> <!-- "step-active" class for active -->
                                                     <div class="steps-box step-shadow">
                                                         <div class="dropdown step-drop">

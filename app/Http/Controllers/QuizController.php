@@ -58,7 +58,7 @@ class QuizController extends Controller
     }
 
     public function getSelChoice(Request $request,$quizId,$sort,$id){
-       // print_r($request->input('choiceid'));die;
+     // print_r($request->input('answer'));die;
         if($sort != 0){
             $selectedchoice = new selectedchoice;
             $selectedchoice = selectedchoice::find($id);
@@ -72,12 +72,20 @@ class QuizController extends Controller
                 $data  = new selectedchoiceResources($selectedchoice);
             }
         }
-       
+        if($request->input('answer') == 'Take Quiz'){
+            $values = array('quiz_id' => $quizId,'status' => '1');
+            DB::table('tbl_matrix')->insert($values);
+        }
+        if($request->input('answer') == 'Finish Quiz'){
+            $values = array('quiz_id' => $quizId,'status' => '2');
+            DB::table('tbl_matrix')->insert($values);
+            echo json_encode("Finish");;die;
+        }
         $selchoiceArr1 = DB::select('select tbl_choice.htmlcode,tbl_choice.options,selectedchoices.* from selectedchoices INNER JOIN tbl_choice ON selectedchoices.choice_id=tbl_choice.id where quiz_id = '.$quizId.' and sort > '.$sort.' order by sort ASC');
         //print_r($selchoiceArr1);die;
         if(!empty($selchoiceArr1)){
             echo $selchoiceArr1[0]->sort;die;
-        }else{
+        }else{ 
             echo json_encode("hii");die;
         }
        
