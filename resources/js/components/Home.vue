@@ -14,7 +14,7 @@
                             <a class="dropdown-item" href="javascript:void(0);" @click="editQuiz(quiz.id)">Edit</a>
                             <a class="dropdown-item" href="javascript:void(0);" @click="deleteQuiz(quiz.id)">Delete</a>
                             <a class="dropdown-item" href="javascript:void(0);" @click="redirectDas('publish',quiz.id)">Publish</a>
-
+                            <a class="dropdown-item" href="javascript:void(0);" @click="redirectDas('Metrics',quiz.id)">Metrics</a>
                         </div>
                     </div> 
                     </div>
@@ -72,14 +72,12 @@
                 fetch(url)
                 .then(res => res.json())
                 .then(res => {
-                    console.log(res.length);
                     if(res.length != 0){
                         for(var i=0;i<res.length;i++){
                            this.Quiz.push(res[i]);
                         } 
                     }    
                 });
-                //console.log(this.Quiz);
             },
             editQuiz(quizId){
                 this.$session.set('quizId',quizId)
@@ -125,7 +123,7 @@
                 });
             },
             redirectDas(type,quizId){
-               // alert(quizId);
+                //alert(quizId);
                 this.$session.set('quizId',quizId)
                 if(type == 'dashboard'){
                     window.location.href="/Quiz_App";
@@ -133,6 +131,9 @@
                     window.location.href="publish";
                 }else if(type == 'previewQuiz'){
                     window.location.href="previewQuiz";
+                }
+                else if(type == 'Metrics'){
+                    window.location.href="matrix";
                 }
                 //window.open(url, '_blank');
                 

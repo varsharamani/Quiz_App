@@ -34,6 +34,10 @@ Route::get('/previewQuiz',function(){
     return view('previewQuiz');
 });
 
+Route::get('/matrix',function(){
+    return view('matrix');
+});
+
 //Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');

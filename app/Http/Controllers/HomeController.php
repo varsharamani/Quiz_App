@@ -89,4 +89,182 @@ class HomeController extends Controller
        return json_encode($data);
     }
 
+    public function matrixData($quizId){
+        $startDate = date('Y-m-d',strtotime("-30 days"));
+        $endDate   = date('Y-m-d',strtotime("now"));
+        $oldDate = date('Y-m-d', strtotime('-1 month', strtotime($startDate)));
+    
+        $newstartsDataT = DB::select('SELECT date(created_at) as created_at, count(*) as status FROM tbl_matrix where quiz_id='.$quizId .' AND status = 1 AND date(created_at) >= "'.$startDate.'" and date(created_at) <= "'.$endDate.'" Group by date(created_at) order by date(created_at)');
+        $oldstartsDataT = DB::select('SELECT date(created_at) as created_at, count(*) as status FROM tbl_matrix where quiz_id='.$quizId .' AND status = 1 AND date(created_at) >= "'.$oldDate.'" and date(created_at) <= "'.$startDate.'" Group by date(created_at) order by date(created_at)');
+        
+        $new_chart_data = '';
+        $new_totalStarts = array();
+        $new_tStarts = 5;
+        foreach($newstartsDataT as $key => $value)
+        {
+            $str = '';
+            $date1 =  date('Y-n-j',strtotime($value->created_at));
+            $array=explode("-",$date1); 
+           
+                 $startDate1 = date('Y-m-d',strtotime($value->created_at));
+                 $startDate11 = date('Y-n-j',strtotime($startDate1." -1 Months"));
+                 $prevDate = explode("-",$startDate11);
+                 $array[1] = $prevDate[1];
+                 $array[0] = $prevDate[0];
+           
+           
+            $str = 'Date.UTC('.$array[0].','.$array[1].','.$array[2].')';
+            $new_chart_data .= "[".$str.",".$value->status."], ";
+            array_push($new_totalStarts,$value->status);
+            $new_tStarts = max($new_totalStarts);
+        }
+        $new_chart_data = rtrim($new_chart_data,' ,');
+
+        $old_chart_data = '';
+        $old_totalStarts = array();
+        $old_tStarts = 5;
+        foreach($oldstartsDataT as $key1 => $value1)
+        {
+            $strOld = ''; 
+            $endDate1 = date('Y-n-j',strtotime($value1->created_at));
+            $array_old=explode("-",$endDate1); 
+            $str = 'Date.UTC('.$array_old[0].','.$array_old[1].','.$array_old[2].')';
+            $old_chart_data .= "[".$str.",".$value1->status."], ";
+            array_push($old_totalStarts,$value1->status);
+            $old_tStarts = max($old_totalStarts);
+        }
+        $old_chart_data = rtrim($old_chart_data,' ,');
+        
+        $seriesData = '';
+        $seriesData.='[{ name:"Current Period", data: ['.$new_chart_data.'] }, { name:"Previous Period", data: ['.$old_chart_data.'] }]';        
+       
+         //response Data
+         $newresponseData = DB::select('SELECT date(created_at) as created_at, count(*) as count FROM tbl_matrix where quiz_id='.$quizId .' AND status = 2 AND date(created_at) >= "'.$startDate.'" and date(created_at) <= "'.$endDate.'" Group by date(created_at)  order By created_at ASC');
+
+         $oldresponseData = DB::select('SELECT date(created_at) as created_at, count(*) as count FROM tbl_matrix where quiz_id='.$quizId .' AND status = 2 AND date(created_at) >= "'.$oldDate.'" and date(created_at) <= "'.$startDate.'" Group by date(created_at) order By created_at ASC');
+        //echo 'SELECT date(created_at) as created_at, count(*) as count FROM tbl_matrix where quiz_id='.$quizId .' AND status = 2 AND date(created_at) >= "'.$oldDateS.'" and date(created_at) <= "'.$oldDateE.'" Group by date(created_at) order By created_at ASC';die;
+         //echo "<PRE>";print_r($oldresponseData);die;
+         $new_chart_dataR = '';
+         $totalResponses = array();
+         $tResponses = 5;
+         foreach($newresponseData as $key => $value){
+             $str = ''; 
+            $date1 =  date('Y-n-j',strtotime($value->created_at));
+            $array=explode("-",$date1); 
+
+                  $startDate1 = date('Y-m-d',strtotime($value->created_at));
+                  $startDate11 = date('Y-n-j',strtotime($startDate1." -1 Months"));
+                  $prevDate = explode("-",$startDate11);
+                  $array[1] = $prevDate[1];
+                  $array[0] = $prevDate[0];
+            
+             $str = 'Date.UTC('.$array[0].','.$array[1].','.$array[2].')';
+             $new_chart_dataR .= "[".$str.",".$value->count."], ";
+             array_push($totalResponses,$value->count);
+             $tResponses = max($totalResponses);
+         }
+         $new_chart_dataR = rtrim($new_chart_dataR,' ,');
+ 
+         $old_chart_dataR = '';
+         $totalResponsesold = array();
+         $tResponsesold = 5;
+         foreach($oldresponseData as $key1 => $value1){
+             $strOld = ''; 
+             $endDate1 = date('Y-n-j',strtotime($value1->created_at));
+             $array_old=explode("-",$endDate1); 
+             $str = 'Date.UTC('.$array_old[0].','.$array_old[1].','.$array_old[2].')';
+             $old_chart_dataR .= "[".$str.",".$value1->count."], ";
+             array_push($totalResponsesold,$value1->count);
+             $tResponsesold = max($totalResponsesold);
+         }
+         $old_chart_dataR = rtrim($old_chart_dataR,' ,');
+ 
+         $seriesDataR = '';
+         $seriesDataR.='[{ name:"Current Period", data: ['.$new_chart_dataR.'] }, { name:"Previous Period", data: ['.$old_chart_dataR.'] }]';
+        $startsData = DB::select('select * from tbl_matrix where quiz_id='.$quizId .' AND status = 1 AND created_at >= "'.$startDate.'" and created_at <= "'.$endDate.'"');
+        $finishData = DB::select('select * from tbl_matrix where quiz_id='.$quizId .' AND status = 2 AND created_at >= "'.$startDate.'" and created_at <= "'.$endDate.'"');
+      
+        $Start = 'NaN';
+        if(!empty($startsData)){
+            $Start = count($startsData)/1000;
+        }
+         $finish = 'NaN';
+        if(!empty($finishData)){
+             $finish = count($finishData)/1000;
+        }
+        
+        //com Rate Data
+        $new_chart_dataCR = '';  
+        $totalComRate = array();
+        $tComRate = 5; 
+        if(!empty($newresponseData)){
+            for($i=0;$i<count($newresponseData);$i++){
+                $comRate1 = '0';
+                $crStart = DB::select('SELECT date(created_at) as created_at, count(*) as count FROM tbl_matrix where quiz_id='.$quizId .' AND status = 1 AND date(created_at) = "'.$newresponseData[$i]->created_at.'" Group by date(created_at)');
+
+                if(!empty($crStart)){
+                     $comRate1 = (($newresponseData[$i]->count*100)/$crStart[0]->count);
+                    $date1 =  date('Y-n-j',strtotime($newresponseData[$i]->created_at));
+                    $array=explode("-",$date1); 
+                     $startDate1 = date('Y-m-d',strtotime($newresponseData[$i]->created_at));
+                     $startDate11 = date('Y-n-j',strtotime($startDate1." -1 Months"));
+                     $prevDate = explode("-",$startDate11);
+                     $array[1] = $prevDate[1];
+                     $array[0] = $prevDate[0];
+               
+                    $str = 'Date.UTC('.$array[0].','.$array[1].','.$array[2].')';
+                    $new_chart_dataCR .= "[".$str.",".round($comRate1,'2')."], ";
+                    array_push($totalComRate, $comRate1);
+                    $tComRate = max($totalComRate);
+                }
+            }
+        }
+
+        $old_chart_dataCR = '';
+        $totalComRateold = array();
+        $tComRateold = 5; 
+        if(!empty($oldresponseData)){
+            for($i=0;$i<count($oldresponseData);$i++){
+                $comRateold1 = '0';
+                $crStartOld = DB::select('SELECT date(created_at) as created_at, count(*) as count FROM tbl_matrix where quiz_id='.$quizId .' AND status = 1 AND date(created_at) = "'.$oldresponseData[$i]->created_at.'" Group by date(created_at)');
+                if(!empty($crStartOld)){
+                    $comRateold1 = (($oldresponseData[$i]->count*100)/$crStartOld[0]->count);
+                    $endDateold1 = date('Y-n-j',strtotime($oldresponseData[$i]->created_at));
+                    $arrayold=explode("-",$endDateold1); 
+                    $str = 'Date.UTC('.$arrayold[0].','.$arrayold[1].','.$arrayold[2].')';
+                    $old_chart_dataCR .= "[".$str.",".round($comRateold1,'2')."], ";
+                    array_push($totalComRateold, $comRateold1);
+                    $tComRateold = max($totalComRateold);
+                }
+            }
+        }
+         $new_chart_dataCR = rtrim($new_chart_dataCR,' ,');
+          $old_chart_dataCR = rtrim($old_chart_dataCR,' ,');
+          $seriesDataCR = '';
+        $seriesDataCR.='[{ name:"Current Period", data: ['.$new_chart_dataCR.'] }, { name:"Previous Period", data: ['.$old_chart_dataCR.'] }]';
+        
+         //all Data
+        $startsDataCR = DB::select('select * from tbl_matrix where quiz_id='.$quizId .' AND status = 1 AND date(created_at) >= "'.$startDate.'" and date(created_at) <= "'.$endDate.'"');
+        $finishDataCR = DB::select('select * from tbl_matrix where quiz_id='.$quizId .' AND status = 2 AND date(created_at) >= "'.$startDate.'" and date(created_at) <= "'.$endDate.'"');
+        
+        $comRate = '0';
+        if(!empty($finishDataCR)){
+            $comRate = ((count($finishDataCR)*100)/count($startsDataCR));
+        }
+        //echo round($comRate,'2');die;
+        $data = array();
+         $data['totalStarts'] = max($tResponses,$tResponsesold);
+         $data['totalresponses'] = max($new_tStarts,$old_tStarts);
+         $data['totalCR'] = max($tComRate,$tComRateold);
+         $data['seriesData'] = $seriesData;
+         $data['seriesDataR'] = $seriesDataR;
+         $data['seriesDataCR'] = $seriesDataCR;
+         $data['startDate'] = $startDate;
+         $data['endDate'] = $endDate;
+         $data['startsData'] = count($startsData);
+         $data['finishData'] = count($finishData);
+         $data['comRate'] = round($comRate,'2');
+         echo json_encode($data);die;
+        //return view('matrix',['quizData'=>$quizData,'quizId'=>$quizId,'startsData'=>$startsData,'finishData'=>$finishData,'cartData'=>$cartData,'new_chart_data'=>$new_chart_data,'old_chart_data'=>$old_chart_data,'startDate'=>$startDate,'endDate'=>$endDate,'responseData'=>$responseData]);
+    }
 }

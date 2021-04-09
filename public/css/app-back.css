@@ -1,17 +1,4 @@
 /* Top Navbar */
-.alert-msg-success{
-    flex: 0 0 100%;
-    -ms-flex: 0 0 100%;
-    max-width: 100%;
-    color: green;
-  }
-
-  .alert-msg-danger{
-    flex: 0 0 100%;
-    -ms-flex: 0 0 100%;
-    max-width: 100%;
-    color: red;
-  }
 .t-navbar {
 	height: 50px;
 	overflow: hidden;
@@ -795,3 +782,172 @@ hr.dot {
     background-color: #408080;
 }
 
+/* metrics style */
+.metrics-box {
+    padding: 15px;
+    width: calc(50% - 5px);
+    float: left;
+    margin-bottom: 10px;
+}
+.fright {
+    float: right!important;
+}
+.metrics-box{
+    background-color: #fff;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+}
+.metrics-box.box-sm p {
+    margin-bottom: 0;
+}
+.metrics-box.box-sm h2 {
+    margin: 5px 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+metrics-box.box-sm p {
+    margin-bottom: 0;
+}
+.negative {
+    color: #e84c85!important;
+}
+.positive {
+    color: #5dc558!important;
+}
+.matrix-tab-scroll {
+	height: 100%;
+	overflow-y: scroll;
+	max-height: 460px;
+}
+.dc-for {
+	line-height: 45px;
+	position: relative;
+}
+/* .dc-for > i {
+	position: absolute;
+	top: 50%;
+	transform: translate(0%,-50%);
+	left: 10px;
+} */
+.dc-for > input {
+	padding: 0px 10px 0px 40px;
+	border-radius: 4px;
+	border: none;
+	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.09);
+	background-image: url(https://demo.genextwebs.com/mirrormate_quiz/public/images/calendar.png);
+	background-repeat: no-repeat;
+	background-size: 21px;
+	background-position: 4% 50%;
+}
+.daterangepicker .drp-calendar {
+	max-width: 300px;
+}
+
+.highcharts-figure,
+.highcharts-data-table table {
+    min-width: 310px;
+    max-width: 800px;
+    margin: 1em auto;
+}
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #EBEBEB;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+.highcharts-data-table th {
+    font-weight: 600;
+    padding: 0.5em;
+}
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+    padding: 0.5em;
+}
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+.daterangepicker .calendar-table th, .daterangepicker .calendar-table td {
+	min-width: 35px !important;
+	width: 35px !important;
+	height: 28px !important;
+	line-height: 28px !important;
+	padding: 4px 12px !important;
+}
+
+.daterangepicker td.available:hover, .daterangepicker th.available:hover {
+	background-color: #b3c9cf !important;
+}
+.daterangepicker td.in-range {
+	background-color: #cddbde !important;
+	color: #000 !important;
+}
+.daterangepicker .drp-calendar {
+	max-width: 300px !important;
+}
+.daterangepicker td.active, .daterangepicker td.active:hover {
+	background-color: #155769 !important;
+	color: #ffffff !important;
+}
+.daterangepicker .drp-buttons .btn.btn-primary {
+	background-color: #155769 !important;
+	border-color: #155769 !important;
+	color: #fff !important;
+	box-shadow: none !important;
+}
+.daterangepicker .drp-buttons .btn.btn-primary:hover {
+	opacity: 0.88 !important;
+}
+
+.respon-title{
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+.response-list {
+	position: relative;
+	padding: 5px 5px 5px 40px;
+	min-height: 40px;
+	margin-bottom: 5px;
+}
+.response-list .img-icon {
+	position: absolute;
+	left: 0;
+	top: 5px;
+}
+.img-icon {
+	width: 28px;
+	height: 28px;
+	display: inline-block;
+	border: 1px solid #000;
+	text-align: center;
+	padding: 2px 0px 0px;
+	border-radius: 40px;
+}
+.img-icon > svg {
+	font-size: 12px;
+}
+.response-list p {
+	font-size: 16px;
+	line-height: 16px;
+	font-weight: 600;
+	margin-bottom: 0px;
+}
+.response-list span:not(.img-icon) {
+	font-size: 14px;
+	line-height: 16px;
+}

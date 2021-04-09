@@ -404,8 +404,6 @@
                             this.choiceArr.push(res[i]);
                         } 
                     }
-                    //this.choiceArr = res;
-                    //console.log(this.choiceArr);
                 });
             },
             selectedChoice1(){
@@ -624,9 +622,7 @@
                     window.location.href="publish";
                 }else if(type == 'previewQuiz'){
                     window.location.href="previewQuiz";
-                }
-                window.open(url, '_blank');
-                
+                }  
             },
             editBasic(e,quiz_id,type){
                 var url = 'api/editBasic/'+quiz_id;

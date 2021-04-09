@@ -159,7 +159,7 @@ class SelectController extends Controller
         $quizData = DB::select('select * from quiz where id = '.$quizId); 
 
         $collection = collectionList();
-        //echo "<PRE>";print_r($basic);die;
+       // echo "<PRE>";print_r($quizData);die;
         $data['basic'] = $basic;
         $data['selchoiceArr'] = $selchoiceArr;
         $data['quizData'] = $quizData;

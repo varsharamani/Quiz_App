@@ -25,6 +25,8 @@ Vue.component('Quiz', require('./components/Quiz.vue').default);
 Vue.component('Home', require('./components/Home.vue').default);
 Vue.component('Publish', require('./components/publish.vue').default);
 Vue.component('Previewquiz', require('./components/previewQuiz.vue').default);
+Vue.component('Matrix', require('./components/matrix.vue').default);
+
 
 
 /**

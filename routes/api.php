@@ -31,6 +31,8 @@ Route::post('edit/{id}','HomeController@update');
 Route::get('Quiz/{id}','HomeController@editQuiz');
 Route::get('QuizDel/{id}','HomeController@destroy');
 Route::post('editBasic/{id}','HomeController@editBasic');
+Route::get('matrixData/{id}','HomeController@matrixData');
+
 
 Route::get('basicInfo/{quizid}','QuizController@index');
 Route::post('getSelChoice/{quizid}/{sort}/{id}','QuizController@getSelChoice');
